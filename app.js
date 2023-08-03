@@ -29,7 +29,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect('mongodb://127.0.0.1:27017/userDB');
+mongoose.connect('mongodb+srv://pratikthapa:C222cactix@cluster0.us1ogfh.mongodb.net/userDB');
 
 const userSchema= new mongoose.Schema({
   email:String,
@@ -126,8 +126,6 @@ app.get("/submit", function(req,res){
 app.post("/submit", function(req,res){
   const submittedSecret = req.body.secret;
 
-  console.log(req.user.id);
-
   User.findById(req.user.id)
   .then (function(foundUser){
       if(foundUser){
@@ -187,7 +185,11 @@ app.post("/login", function(req,res){
     }
   });
 });
- 
-app.listen(3000, function(){
+
+let port = process.env.PORT;
+if(port==null || port==""){
+  port=3000;
+}
+app.listen(port, function(){
   console.log("Server started at port 3000");
 });
